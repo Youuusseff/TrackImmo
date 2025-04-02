@@ -311,17 +311,31 @@ def classify_listing_with_trends(item_df):
         when(col("avg_prix_m2") > 0, 
              (1 - (col("prix_m2") / col("avg_prix_m2"))) * 100).otherwise(0)
     )
-    
+    # Use a more sophisticated growth projection with tapering growth
     processed_with_trends = processed_with_trends.withColumn(
-        "potential_5y_growth", 
-        when(col("cagr_3y") > 0, pow(1 + col("cagr_3y"), 5) * 100 - 100).otherwise(col("yoy_growth") * 5)
-    )
-    
+            "potential_5y_growth",
+            when(
+                col("cagr_3y") > 0,
+                # Use compound growth with the capped cagr_3y value
+                (pow(1 + col("cagr_3y"), 5) - 1) * 100)
+            .otherwise(
+                # Use a tapering growth model when no cagr_3y
+                col("yoy_growth") * (1 + 0.8 + 0.6 + 0.4 + 0.2)  # Year 1 + 80% + 60% + 40% + 20% of growth rate
+                )
+            )
+    processed_with_trends = processed_with_trends.withColumn(
+            "potential_5y_growth",
+            when(col("potential_5y_growth") > 100, 100)  # Cap at 100% total growth over 5 years
+            .when(col("potential_5y_growth") < -50, -50)  # Cap at -50% decline over 5 years
+            .otherwise(col("potential_5y_growth"))
+    ) 
     # Make predictions
     predictions = model.transform(processed_with_trends)
     
     # Return the results with prediction and investment metrics
     return predictions.select(
+        "url",
+        "titre",
         "type_local", 
         "surface_reelle_bati", 
         "nombre_pieces_principales",
@@ -337,31 +351,36 @@ def classify_listing_with_trends(item_df):
 # Connect to MongoDB
 client = MongoClient("mongodb://localhost:27017/")  # Change this if needed
 db = client["lebon_spider"]  # Change to your database name
-collection = db["Immobiliers"]  # Change to your collection name
-listings = list(collection.find({}, {"_id": 0}))  # Exclude `_id` field
+collection = db["Immobiliers"]
+predictions = db["predictions"]# Change to your collection name
+listings = list(collection.find({}, {"_id": 0}))# Exclude `_id` field
 if not listings:
     print("No listing")
+from pyspark.sql.functions import monotonically_increasing_id
 # Convert MongoDB data to a Pandas DataFrame
 listings_df = pd.DataFrame(listings)
-copy_df = listings_df
-listings_df.drop(columns=['url', 'titre'])
-# Convert Pandas DataFrame to Spark DataFrame
+# Step 2: Add a unique index column for tracking
+listings_df['unique_id'] = range(len(listings_df))  # Assign a unique ID
+
 spark_df = spark.createDataFrame(listings_df)
-# Example of using the function with scraped data - now with nombre_pieces included
-scraped_data = [
-    {"type_bien": "Maison", "surface": 100.0, "prix": 250000.0, "code_postal": "64000", "nombre_pieces": 4},
-    {"type_bien": "Appartement", "surface": 65.0, "prix": 180000.0, "code_postal": "64230", "nombre_pieces": 3},
-    {"type_bien": "Maison", "surface": 120.0, "prix": 195000.0, "code_postal": "64121", "nombre_pieces": 5}
-]
-scraped_df = spark.createDataFrame(scraped_data)
 
-# Classify the scraped listings with trend analysis
+spark_df = spark_df.withColumn("unique_id", monotonically_increasing_id())
+
 classified_results = classify_listing_with_trends(spark_df)
-print("Classification results with nombre_pieces:")
-classified_results.show()
-filtered_results = classified_results.filter(classified_results.prediction == 1.0)
+filtered_results = classified_results.filter(
+        (classified_results.prediction == 1.0) & 
+        (classified_results.potential_5y_growth_pct < 50)
+        )
 filtered_results.show()
+filtered_df = filtered_results.toPandas()
 
+
+collection = db["predictions"]
+
+# Convert to dictionary and insert into MongoDB
+collection.insert_many(filtered_df.to_dict(orient="records"))
+
+print("Filtered predictions successfully inserted into MongoDB.")
 
 
 
