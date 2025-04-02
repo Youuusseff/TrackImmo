@@ -369,7 +369,7 @@ spark_df = spark_df.withColumn("unique_id", monotonically_increasing_id())
 classified_results = classify_listing_with_trends(spark_df)
 filtered_results = classified_results.filter(
         (classified_results.prediction == 1.0) & 
-        (classified_results.potential_5y_growth_pct < 50)
+        (classified_results.potential_5y_growth_pct <= 40)
         )
 filtered_results.show()
 filtered_df = filtered_results.toPandas()
