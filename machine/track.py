@@ -348,6 +348,85 @@ def classify_listing_with_trends(item_df):
         round(col("potential_5y_growth"), 1).alias("potential_5y_growth_pct"),
         "prediction"
     )
+# Create a new function to generate and store statistics
+def generate_and_store_stats():
+    """
+    Generate useful statistics for frontend visualization and store them in MongoDB
+    """
+    stats_collection = db["stats"]  # Reference to the stats collection
+    stats_collection.delete_many({})
+    # 1. Top growing regions (for investment recommendations)
+    top_regions = yearly_trends.filter(col("annee_mutation") >= 2022) \
+        .groupBy("code_postal", "type_local") \
+        .agg(avg("yoy_growth").alias("avg_growth"), 
+             avg("avg_prix_m2").alias("avg_price"),
+             count("*").alias("transaction_count")) \
+        .filter(col("transaction_count") >= 5) \
+        .orderBy(desc("avg_growth")) \
+        .limit(10)
+    
+    top_regions_df = top_regions.toPandas()
+    stats_collection.insert_one({
+        "stat_type": "top_growing_regions",
+        "data": top_regions_df.to_dict(orient="records"),
+        "updated_at": pd.Timestamp.now()
+    })
+    
+    # 2. Price trends over time (for line charts)
+    national_trends = df_clean.groupBy("annee_mutation", "type_local") \
+        .agg(avg("prix_m2").alias("avg_price"),
+             count("*").alias("transaction_count"))
+    
+    national_trends_df = national_trends.toPandas()
+    stats_collection.insert_one({
+        "stat_type": "national_price_trends",
+        "data": national_trends_df.to_dict(orient="records"),
+        "updated_at": pd.Timestamp.now()
+    })
+    
+    # 3. Price distribution by region (for choropleth maps)
+    regional_prices = df_clean.filter(col("annee_mutation") == 2024) \
+        .groupBy("code_postal") \
+        .agg(avg("prix_m2").alias("avg_price"),
+             count("*").alias("transaction_count"))
+    
+    regional_prices_df = regional_prices.toPandas()
+    stats_collection.insert_one({
+        "stat_type": "regional_price_distribution",
+        "data": regional_prices_df.to_dict(orient="records"),
+        "updated_at": pd.Timestamp.now()
+    })
+    
+    # 4. Property type distribution
+    property_type_data = df_clean.groupBy("type_local") \
+        .count() \
+        .withColumnRenamed("count", "property_count")
+    
+    property_type_df = property_type_data.toPandas()
+    stats_collection.insert_one({
+        "stat_type": "property_type_distribution",
+        "data": property_type_df.to_dict(orient="records"),
+        "updated_at": pd.Timestamp.now()
+    })
+    
+    # 5. Investment opportunity score distribution
+    opportunity_scores = df_with_trends.select("code_postal", "opportunity_score") \
+        .filter(col("opportunity_score").isNotNull()) \
+        .groupBy("code_postal") \
+        .agg(avg("opportunity_score").alias("avg_opportunity_score"),
+             count("*").alias("property_count")) \
+        .orderBy(desc("avg_opportunity_score"))
+    
+    opportunity_scores_df = opportunity_scores.toPandas()
+    stats_collection.insert_one({
+        "stat_type": "investment_opportunity_scores",
+        "data": opportunity_scores_df.to_dict(orient="records"),
+        "updated_at": pd.Timestamp.now()
+    })
+    
+    print("Statistics successfully stored in MongoDB.")
+
+# Call the function at the end of your script
 # Connect to MongoDB
 client = MongoClient("mongodb://localhost:27017/")  # Change this if needed
 db = client["lebon_spider"]  # Change to your database name
@@ -376,7 +455,7 @@ filtered_df = filtered_results.toPandas()
 
 
 collection = db["predictions"]
-
+generate_and_store_stats()
 # Convert to dictionary and insert into MongoDB
 collection.insert_many(filtered_df.to_dict(orient="records"))
 
