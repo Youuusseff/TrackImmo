@@ -37,7 +37,7 @@ export const fetchListingById = async (id) => {
 export const fetchStatByType = async (statType) => {
   try {
     const response = await axios.get(`${API_BASE_URL}/api/stats/${statType}`);
-    return response.data;
+    return response.data.data;
   } catch (error) {
     console.error(`Error fetching stat of type ${statType}:`, error);
     throw error;
