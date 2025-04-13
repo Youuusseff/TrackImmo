@@ -1,0 +1,41 @@
+.wrapper {
+    margin: 4rem 0;
+    overflow: hidden;
+    padding: 0 2rem;
+  }
+  
+  .title {
+    text-align: center;
+    font-size: 1.8rem;
+    margin-bottom: 1rem;
+  }
+  
+  .scroller {
+    overflow: hidden;
+    white-space: nowrap;
+    position: relative;
+  }
+  
+  .ticker {
+    display: flex;
+    gap: 1rem;
+  }
+  
+  .card {
+    min-width: 20rem;
+    flex-shrink: 0;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    padding: 2rem;
+    margin-right: 12rem;
+    text-decoration: none;
+    color: black;
+    transition: transform 0.3s ease;
+  }
+  
+  .card:hover {
+    transform: scale(1.05);
+  }
+  
+  

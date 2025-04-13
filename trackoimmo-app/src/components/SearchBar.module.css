@@ -1,0 +1,68 @@
+.searchContainer {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+    margin: 2rem 0;
+  }
+  
+  .searchInput {
+    padding: 1rem 1rem;
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    width: 50rem;
+  }
+  
+  .searchButton {
+    padding: 1.1rem 1.4rem;
+    background-color: #0a192f;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+  }
+  
+  .searchButton:hover {
+    background-color: #08213d;
+  }
+  .suggestionList {
+    list-style: none;
+    background: white;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    width: 50rem;
+    margin-top: 0.5rem;
+    max-height: 150px;
+    overflow-y: auto;
+    position: absolute;
+    top: 43px;
+    z-index: 999;
+  }
+  
+  .suggestionItem {
+    padding: 0.5rem 1rem;
+    cursor: pointer;
+  }
+  .suggestionItem.active {
+    background-color: #dceefc;
+    font-weight: bold;
+  }
+  
+  .suggestionItem:hover {
+    background-color: #f1f1f1;
+  }
+  @media (max-width: 768px){
+    .searchContainer {
+      width: 100%;
+      padding: 0 1rem;
+    }
+    .searchInput {
+      width: 100%;
+    }
+    .suggestionList {
+      width: 100%;
+    }
+  }

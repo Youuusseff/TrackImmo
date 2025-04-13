@@ -97,5 +97,10 @@
       font-size: 1rem;
     }
   }
+  @media screen and (min-width: 768px) and (max-width: 1000px) {
+    .navbar{
+      padding: 1.5rem 2rem;
+    }   
+  }
   
   

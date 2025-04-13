@@ -1,0 +1,19 @@
+.filtersContainer {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    justify-content: center;
+    margin-bottom: 2rem;
+  }
+  .select{
+    width: 13rem;
+  }
+  .filtersContainer input,
+  .filtersContainer select {
+    padding: 0.5rem 0.75rem;
+    font-size: 0.95rem;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    min-width: 10rem;
+  }
+  
