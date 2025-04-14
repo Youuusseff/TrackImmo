@@ -9,7 +9,7 @@ const FilterSidebar = ({ filters, onChange }) => {
 
   return (
     <div className={styles.sidebar}>
-      <h3>Filtrer</h3>
+      <h3>Filtres</h3>
       <select name="type_local" value={filters.type_local} onChange={handleInput}>
         <option value="">Type de bien</option>
         <option value="Maison">Maison</option>

@@ -3,6 +3,7 @@ import { ComposableMap, Geographies, Geography } from 'react-simple-maps';
 import { postalToCoords } from '../utils/postalToCoords';
 import AnimatedMarker from './AnimatedMarker';
 import styles from './MapPanel.module.css';
+import { motion, AnimatePresence } from 'framer-motion';
 
 const geoUrl = "https://raw.githubusercontent.com/gregoiredavid/france-geojson/master/departements-version-simplifiee.geojson";
 
@@ -41,22 +42,45 @@ const MapPanel = ({ listings }) => {
         })}
       </ComposableMap>
 
-      {selectedItem && (
-        <div className={styles.detailsCard}>
-          <h2>{selectedItem.titre}</h2>
-          <p><strong>Type:</strong> {selectedItem.type_local}</p>
-          <p><strong>Surface:</strong> {selectedItem.surface_reelle_bati} m²</p>
-          <p><strong>Pièces:</strong> {selectedItem.nombre_pieces_principales}</p>
-          <p><strong>Code postal:</strong> {selectedItem.code_postal}</p>
-          <p><strong>Prix:</strong> €{selectedItem.valeur_fonciere.toLocaleString()}</p>
-          <p><strong>Prix/m²:</strong> €{selectedItem.prix_m2?.toFixed(2)}</p>
-          <p><strong>Prix moyen m²:</strong> €{selectedItem.avg_market_price_m2?.toFixed(2)}</p>
-          <p><strong>Réduction:</strong> {selectedItem.price_discount_pct}%</p>
-          <p><strong>Croissance 1 an:</strong> {selectedItem.yoy_growth_pct}%</p>
-          <p><strong>Croissance 5 ans:</strong> {selectedItem.potential_5y_growth_pct}%</p>
-          <a href={selectedItem.url} target="_blank" rel="noopener noreferrer">Voir l'annonce</a>
-        </div>
-      )}
+      <AnimatePresence>
+        {selectedItem && (
+          <motion.div
+            className={styles.detailsCard}
+            initial={{ x: 500, opacity: 0 }}
+            animate={{ x: 0, opacity: 1 }}
+            exit={{ x: 500, opacity: 0 }}
+            transition={{ duration: 0.4, ease: 'easeOut' }}
+          >
+            <button className={styles.closeBtn} onClick={() => setSelectedItem(null)}>✖</button>
+
+            <h2 className={styles.title}>{selectedItem.titre}</h2>
+
+            <div className={styles.detailsGrid}>
+              <span><strong>🏠 Type:</strong> {selectedItem.type_local}</span>
+              <span><strong>📏 Surface:</strong> {selectedItem.surface_reelle_bati} m²</span>
+              <span><strong>🛋️ Pièces:</strong> {selectedItem.nombre_pieces_principales || 'N/A'}</span>
+              <span><strong>📍 Code postal:</strong> {selectedItem.code_postal}</span>
+              <span><strong>💰 Prix:</strong> €{selectedItem.valeur_fonciere.toLocaleString()}</span>
+              <span><strong>📐 Prix/m²:</strong> €{selectedItem.prix_m2?.toFixed(2) || 'N/A'}</span>
+              <span><strong>📊 Prix moyen m²:</strong> €{selectedItem.avg_market_price_m2?.toFixed(2) || 'N/A'}</span>
+              <span><strong>🧾 Réduction:</strong> <span className={styles.badge}>{selectedItem.price_discount_pct}%</span></span>
+              <span><strong>📈 Croissance 1 an:</strong> <span className={styles.badge}>{selectedItem.yoy_growth_pct || 0}%</span></span>
+              <span><strong>🚀 Croissance 5 ans:</strong> <span className={styles.badge}>{selectedItem.potential_5y_growth_pct}%</span></span>
+            </div>
+
+            <a
+              href={selectedItem.url}
+              className={styles.ctaBtn}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Voir l'annonce 🔎
+            </a>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+
     </div>
   );
 };

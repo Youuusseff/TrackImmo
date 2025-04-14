@@ -5,16 +5,75 @@
   }
   
   .detailsCard {
-    position: absolute;
+    position: fixed;
+    top: 15rem;
     right: 2rem;
-    top: 7rem;
-    width: 320px;
-    background: white;
-    border: 1px solid #ddd;
-    border-radius: 10px;
-    padding: 1.2rem;
-    box-shadow: 0 5px 20px rgba(0,0,0,0.1);
-    font-size: 0.9rem;
-    z-index: 10;
+    width: 360px;
+    background: #fff;
+    border-radius: 16px;
+    padding: 1.8rem;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+    z-index: 20;
+    font-family: 'Segoe UI', sans-serif;
+    overflow-y: auto;
+    max-height: 85vh;
+    border: 1px solid #e0e0e0;
   }
+  
+  .closeBtn {
+    position: absolute;
+    top: 1rem;
+    right: 1.2rem;
+    font-size: 1.4rem;
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #888;
+    transition: color 0.2s;
+  }
+  .closeBtn:hover {
+    color: #000;
+  }
+  
+  .title {
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin-bottom: 1.4rem;
+    color: #222;
+  }
+  
+  .detailsGrid {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    font-size: 0.95rem;
+    color: #333;
+  }
+  
+  .badge {
+    background-color: #e0f7ea;
+    color: #2e7d32;
+    padding: 2px 8px;
+    border-radius: 8px;
+    font-size: 0.85rem;
+    margin-left: 6px;
+  }
+  
+  .ctaBtn {
+    display: inline-block;
+    margin-top: 1.5rem;
+    background-color: #007bff;
+    color: white;
+    padding: 0.6rem 1rem;
+    border-radius: 8px;
+    text-decoration: none;
+    text-align: center;
+    font-weight: 500;
+    transition: background 0.2s;
+  }
+  .ctaBtn:hover {
+    background-color: #0056b3;
+  }
+  
+  
   
