@@ -20,6 +20,19 @@ const ListingsPage = () => {
 
   const [filters, setFilters] = useState(filtersFromURL);
   const [filteredListings, setFilteredListings] = useState([]);
+  const [isMobile, setIsMobile] = useState(window.innerWidth < 1000);
+  const [showSidebar, setShowSidebar] = useState(!isMobile);
+
+  useEffect(() => {
+    const handleResize = () => {
+      const isNowMobile = window.innerWidth < 1000;
+      setIsMobile(isNowMobile);
+      if (!isNowMobile) setShowSidebar(true);
+    };
+
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   useEffect(() => {
     let filtered = sampleData;
@@ -63,13 +76,33 @@ const ListingsPage = () => {
     <div>
       <Navbar />
       <div className={styles.container}>
-        <FilterSidebar filters={filters} onChange={handleFilterChange} />
-        {console.log("Filtered listings sample:", filteredListings[0])}
-        <MapPanel listings={filteredListings} />
+        {isMobile && (
+          <button
+            className={styles.sidebarToggleBtn}
+            onClick={() => setShowSidebar((prev) => !prev)}
+          >
+            {showSidebar ? '✖' : '☰'}
+          </button>
+        )}
+
+        <div
+          className={`${styles.sidebar} ${
+            isMobile ? (showSidebar ? styles.sidebarVisible : styles.sidebarHidden) : ''
+          }`}
+        >
+          <FilterSidebar filters={filters} onChange={handleFilterChange} />
+        </div>
+
+        <div className={styles.mapWrapper}>
+          <MapPanel listings={filteredListings} />
+        </div>
       </div>
     </div>
   );
 };
 
 export default ListingsPage;
+
+
+
 

@@ -4,7 +4,7 @@ import gsap from 'gsap';
 import markerIcon from '../assets/map-marker-svgrepo-com.svg';
 import styles from './AnimatedMarker.module.css';
 
-const AnimatedMarker = ({ coordinates, item, onSelect }) => {
+const AnimatedMarker = ({ coordinates, item, onSelect, isSelected }) => {
   const markerRef = useRef(null);
 
   useEffect(() => {
@@ -17,15 +17,51 @@ const AnimatedMarker = ({ coordinates, item, onSelect }) => {
     }
   }, []);
 
+  useEffect(() => {
+    if (isSelected && markerRef.current) {
+      gsap.to(markerRef.current, {
+        scale: 1.2,
+        duration: 0.2,
+        repeat: 1,
+        yoyo: true,
+        ease: 'power1.inOut',
+      });
+    }
+  }, [isSelected]);
+
+  const handleMouseEnter = () => {
+    if (markerRef.current) {
+      gsap.to(markerRef.current, {
+        scale: 1.2,
+        duration: 0.2,
+        ease: 'power2.out'
+      });
+    }
+  };
+
+  const handleMouseLeave = () => {
+    if (markerRef.current) {
+      gsap.to(markerRef.current, {
+        scale: 1,
+        duration: 0.2,
+        ease: 'power2.inOut'
+      });
+    }
+  };
+
+  const isMobile = window.innerWidth < 768;
+
   return (
     <Marker coordinates={coordinates}>
       <image
         ref={markerRef}
         href={markerIcon}
-        width={20}
-        height={30}
-        transform="translate(-10, -30)"
+        width={isMobile ? 20 : 24}
+        height={isMobile ? 26 : 32}
+        transform={`translate(-${isMobile ? 10 : 12}, -${isMobile ? 26 : 32})`}
         onClick={() => onSelect(item)}
+        onMouseEnter={handleMouseEnter}
+        onMouseLeave={handleMouseLeave}
         style={{ cursor: 'pointer' }}
       />
       <title>{item.titre}</title>
@@ -34,3 +70,4 @@ const AnimatedMarker = ({ coordinates, item, onSelect }) => {
 };
 
 export default AnimatedMarker;
+
