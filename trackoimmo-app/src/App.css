@@ -6,7 +6,8 @@
     width: 100%;
     margin: 0;
   }
-
+  
+  
 @media screen and (max-width: 1000px) {
     .App{
       font-size: 0.8rem;
@@ -37,4 +38,15 @@
       margin-left: 0 !important;
     }
   
+}
+html, body {
+  width: 100%;
+  max-width: 100%;
+  overflow-x: hidden;
+  margin: 0;
+  padding: 0;
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
 }

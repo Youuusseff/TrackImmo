@@ -98,7 +98,7 @@
   }
   @media screen and (max-width: 1000px) {
     .detailsCard {
-      top: 44%;
+      top: 34%;
       left: 10%;
       right: unset;
       transform: translate(-50%, -50%);
