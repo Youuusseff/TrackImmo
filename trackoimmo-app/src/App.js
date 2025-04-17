@@ -11,6 +11,7 @@ function App() {
         <Route path="/" element={<HomePage />} />
         <Route path="/listings" element={<ListingsPage />} />
         <Route path="/dashboard" element={<DashboardPage />} />
+        <Route default path="*" element={<HomePage />} />
       </Routes>
     </Router>
   );
