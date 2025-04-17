@@ -56,8 +56,8 @@ const AnimatedMarker = ({ coordinates, item, onSelect, isSelected }) => {
       <image
         ref={markerRef}
         href={markerIcon}
-        width={isMobile ? 20 : 24}
-        height={isMobile ? 26 : 32}
+        width={isMobile ? 40 : 24}
+        height={isMobile ? 46 : 32}
         transform={`translate(-${isMobile ? 10 : 12}, -${isMobile ? 26 : 32})`}
         onClick={() => onSelect(item)}
         onMouseEnter={handleMouseEnter}

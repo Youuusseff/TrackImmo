@@ -3,4 +3,21 @@
     flex-wrap: wrap;
     justify-content: center;
   }
+@media screen and (max-width: 1000px) {
+    .chartsContainer {
+        flex-direction: row;
+        flex-wrap: nowrap;
+        align-items: center;
+    }
+    .chartsContainer > div {
+        width: 100%;
+        margin: 0 1rem;
+        padding: 0;
+        font-size: 0.8rem;
+        margin-bottom: 2rem;
+    }
+    .chartsContainer > div:nth-child(odd) {
+        margin-right: 0;
+    }
   
+}

@@ -16,4 +16,25 @@
     border: 1px solid #ccc;
     min-width: 10rem;
   }
-  
+@media screen and (max-width: 1000px) {
+    .filtersContainer {
+      flex-direction: row;
+      flex-wrap: wrap;
+      justify-content: center;
+      align-items: center;
+    }
+    .filtersContainer input{
+      color: black;
+      width: 20%;
+      margin-bottom: 1rem;
+      user-select: none;
+      -webkit-user-select: none;
+    }
+    .filtersContainer select {
+      width: 70%;
+      color: black;
+      margin-bottom: 0rem;
+      user-select: none;
+      -webkit-user-select: none;
+    }
+  }

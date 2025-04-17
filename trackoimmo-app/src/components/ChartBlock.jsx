@@ -41,13 +41,14 @@ const ChartBlock = ({ title, type }) => {
       <h3>{title}</h3>
       <ResponsiveContainer width="100%" height={250}>
         {type === "top_growing_regions" ? (
-          <BarChart data={data} margin={{ top: 20, right: 20, left: 20, bottom: 22 }}>
-            <CartesianGrid strokeDasharray="10 10" />
+          <BarChart data={data} margin={{ top: 20, right: 20, left: 0, bottom: 22 }}>
+            <CartesianGrid strokeDasharray="3 3" />
             <XAxis dataKey="region"
                     angle={-30}
                     textAnchor="end"
                     interval={0}
-                    tick={{ fontSize: 10 }} />
+                    tick={{ fontSize: 10 }}
+                    className='x' />
             <YAxis />
             <Tooltip />
             <Legend />
