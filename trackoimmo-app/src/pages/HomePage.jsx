@@ -5,6 +5,7 @@ import styles from './HomePage.module.css';
 import SearchBar from '../components/SearchBar';
 import FiltersPanel from '../components/FiltersPanel';
 import FeaturedListings from '../components/FeaturedListings';
+import { useEffect } from 'react';
 
 const HomePage = () => {
   const handleSearch = (query) => {
@@ -12,6 +13,10 @@ const HomePage = () => {
     // TODO: fetch listings based on query
   };
   const handleFilterChange = (filters) => console.log('Filters:', filters);
+  useEffect(() => {
+    console.log("Window width:", window.innerWidth);
+  }, []);
+  
   return (
     <div>
       <Navbar />
