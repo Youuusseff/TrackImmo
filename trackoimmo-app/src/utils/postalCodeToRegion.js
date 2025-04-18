@@ -34,12 +34,12 @@ const departmentToRegion = {
   
   export function postalCodeToRegion(postalCode) {
     if (!postalCode) return "Inconnu";
-  
+    const postal = postalCode.toString().padStart(5, "0");
     let department = postalCode.toString().substring(0, 2);
   
     if (department === "20") {
-      if (postalCode.startsWith("2A")) department = "2A";
-      else if (postalCode.startsWith("2B")) department = "2B";
+      if (postal.startsWith("2A")) department = "2A";
+      else if (postal.startsWith("2B")) department = "2B";
     }
   
     return departmentToRegion[department] || "Inconnu";

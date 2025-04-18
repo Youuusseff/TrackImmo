@@ -2,9 +2,9 @@ import React, { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import Navbar from '../components/Navbar';
 import FilterSidebar from '../components/FilterSidebar';
-import styles from './ListingsPage.module.css';
-import sampleData from '../utils/sampleListings.json';
 import MapPanel from '../components/MapPanel';
+import styles from './ListingsPage.module.css';
+import { fetchListings } from '../services/api';
 
 const ListingsPage = () => {
   const location = useLocation();
@@ -20,6 +20,7 @@ const ListingsPage = () => {
 
   const [filters, setFilters] = useState(filtersFromURL);
   const [filteredListings, setFilteredListings] = useState([]);
+  const [loading, setLoading] = useState(true);
   const [isMobile, setIsMobile] = useState(window.innerWidth < 1000);
   const [showSidebar, setShowSidebar] = useState(!isMobile);
 
@@ -34,38 +35,21 @@ const ListingsPage = () => {
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
+  // 🔁 Fetch listings from Flask API based on filters
   useEffect(() => {
-    let filtered = sampleData;
+    const fetchData = async () => {
+      setLoading(true);
+      try {
+        const listings = await fetchListings(filters);
+        setFilteredListings(listings);
+      } catch (error) {
+        console.error("Error loading listings:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
 
-    if (filters.city) {
-      filtered = filtered.filter((item) =>
-        item.code_postal && item.code_postal.startsWith(filters.city)
-      );
-    }
-
-    if (filters.type_local) {
-      filtered = filtered.filter((item) => item.type_local === filters.type_local);
-    }
-
-    if (filters.rooms) {
-      filtered = filtered.filter(
-        (item) => item.nombre_pieces_principales >= parseInt(filters.rooms)
-      );
-    }
-
-    if (filters.price_min) {
-      filtered = filtered.filter(
-        (item) => item.valeur_fonciere >= parseInt(filters.price_min)
-      );
-    }
-
-    if (filters.price_max) {
-      filtered = filtered.filter(
-        (item) => item.valeur_fonciere <= parseInt(filters.price_max)
-      );
-    }
-
-    setFilteredListings(filtered);
+    fetchData();
   }, [filters]);
 
   const handleFilterChange = (newFilters) => {
@@ -94,7 +78,13 @@ const ListingsPage = () => {
         </div>
 
         <div className={styles.mapWrapper}>
-          <MapPanel listings={filteredListings} />
+          {loading ? (
+            <div className={styles.loaderContainer}>
+              <div className={styles.spinner}></div>
+            </div>
+          ) : (
+            <MapPanel listings={filteredListings} />
+          )}
         </div>
       </div>
     </div>
@@ -102,6 +92,7 @@ const ListingsPage = () => {
 };
 
 export default ListingsPage;
+
 
 
 
