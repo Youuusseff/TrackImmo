@@ -1,0 +1,36 @@
+.dashboardWrapper {
+    padding: 2rem;
+    max-width: 1400px;
+    margin: 0 auto;
+    font-family: 'Segoe UI', sans-serif;
+  }
+  
+  .dashboardTitle {
+    font-size: 1.8rem;
+    margin-bottom: 2rem;
+    text-align: center;
+    color: #333;
+  }
+  
+  .chartsGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 2rem;
+  }
+  
+  /* Ensure charts don’t overflow on mobile */
+  @media screen and (max-width: 768px) {
+    .dashboardWrapper {
+      padding: 1rem;
+    }
+  
+    .dashboardTitle {
+      font-size: 1.4rem;
+    }
+  
+    .chartsGrid {
+      gap: 1.5rem;
+    }
+  }
+  
+  

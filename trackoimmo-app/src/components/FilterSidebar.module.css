@@ -1,0 +1,36 @@
+.sidebar {
+    width: 20rem;
+    padding: 2rem;
+    background: white;
+    box-shadow: 30px 4px 8px rgba(0, 0, 0, 0.4);
+    display: flex;
+    border-radius: 10px;
+    flex-direction: column;
+    gap: 1rem;
+    text-align: center;
+  }
+  h3{
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 1rem;
+    letter-spacing: 2px;
+    user-select: none;
+    -webkit-user-select: none;
+  }
+select{
+  padding: 0.5rem;
+  border-radius: 10px;
+  margin: 1rem 0;
+  user-select: none;
+  -webkit-user-select: none;
+  color: black;
+}
+input{
+  padding: 0.5rem;
+  border-radius: 10px;
+  margin: 1rem 0;
+  user-select: none;
+  -webkit-user-select: none;
+  color: black;
+}
