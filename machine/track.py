@@ -130,7 +130,7 @@ top_growing_regions = yearly_trends.filter(col("annee_mutation") < 2023) \
     .agg(avg("yoy_growth").alias("avg_growth")) \
     .orderBy(desc("avg_growth")) \
     .limit(10)
-
+top_growing_regions_df = top_growing_regions.toPandas()
 # 2. In a region with strong growth potential
 df_with_trends = df_with_trends.withColumn("below_market_price", 
                                          when(col("prix_m2") < col("avg_prix_m2") * 0.9, 1).otherwise(0))
@@ -355,23 +355,6 @@ def generate_and_store_stats():
     """
     stats_collection = db["stats"]  # Reference to the stats collection
     stats_collection.delete_many({})
-    # 1. Top growing regions (for investment recommendations)
-    top_regions = yearly_trends.filter(col("annee_mutation") >= 2022) \
-        .groupBy("code_postal", "type_local") \
-        .agg(avg("yoy_growth").alias("avg_growth"), 
-             avg("avg_prix_m2").alias("avg_price"),
-             count("*").alias("transaction_count")) \
-        .filter(col("transaction_count") >= 5) \
-        .orderBy(desc("avg_growth")) \
-        .limit(10)
-    
-    top_regions_df = top_regions.toPandas()
-    stats_collection.insert_one({
-        "stat_type": "top_growing_regions",
-        "data": top_regions_df.to_dict(orient="records"),
-        "updated_at": pd.Timestamp.now()
-    })
-    
     # 2. Price trends over time (for line charts)
     national_trends = df_clean.groupBy("annee_mutation", "type_local") \
         .agg(avg("prix_m2").alias("avg_price"),
@@ -429,9 +412,10 @@ def generate_and_store_stats():
 # Call the function at the end of your script
 # Connect to MongoDB
 client = MongoClient("mongodb://localhost:27017/")  # Change this if needed
-db = client["lebon_spider"]  # Change to your database name
+db = client["lebon_spider"]
 collection = db["Immobiliers"]
-predictions = db["predictions"]# Change to your collection name
+predictions = db["predictions"]
+stats_collection = db["stats"]
 listings = list(collection.find({}, {"_id": 0}))# Exclude `_id` field
 if not listings:
     print("No listing")
@@ -456,6 +440,11 @@ filtered_df = filtered_results.toPandas()
 
 collection = db["predictions"]
 generate_and_store_stats()
+stats_collection.insert_one({
+        "stat_type": "top_growing_regions",
+        "data": top_growing_regions_df.to_dict(orient="records"),
+        "updated_at": pd.Timestamp.now()
+    })
 # Convert to dictionary and insert into MongoDB
 collection.insert_many(filtered_df.to_dict(orient="records"))
 

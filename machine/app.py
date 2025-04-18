@@ -1,12 +1,13 @@
-from flask import Flask, jsonify
+from flask import Flask, jsonify, request
 from pymongo import MongoClient
 from pyspark.sql import SparkSession
 import pandas as pd
 import json
+from flask_cors import CORS
 
 # Initialize Flask app
 app = Flask(__name__)
-
+CORS(app)
 # Connect to MongoDB
 client = MongoClient("mongodb://localhost:27017/")  # Change this if needed
 db = client["lebon_spider"]  # Change to your database name
