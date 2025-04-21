@@ -17,25 +17,31 @@ stats_collection = db["stats"]
 
 @app.route('/get', methods=['GET'])
 def get_filtered_listings():
-    """Filter by price, location, surface, and paginate"""
     query = {}
+    city = request.args.get('city')
+    type_local = request.args.get('type_local')
+    rooms = request.args.get('rooms', type=int)
     price_min = request.args.get('price_min', type=int)
     price_max = request.args.get('price_max', type=int)
-    city = request.args.get('city')
-    limit = request.args.get('limit', default=20, type=int)
+    limit = request.args.get('limit', default=50, type=int)
     skip = request.args.get('skip', default=0, type=int)
 
-    if price_min is not None:
-        query['price'] = query.get('price', {})
-        query['price']['$gte'] = price_min
-    if price_max is not None:
-        query['price'] = query.get('price', {})
-        query['price']['$lte'] = price_max
     if city:
-        query['city'] = city
+        query['code_postal'] = {"$regex": f"^{city}"}
+    if type_local:
+        query['type_local'] = type_local
+    if rooms is not None:
+        query['nombre_pieces_principales'] = {"$gte": rooms}
+    if price_min is not None:
+        query['valeur_fonciere'] = query.get('valeur_fonciere', {})
+        query['valeur_fonciere']['$gte'] = price_min
+    if price_max is not None:
+        query['valeur_fonciere'] = query.get('valeur_fonciere', {})
+        query['valeur_fonciere']['$lte'] = price_max
 
     listings = list(collection.find(query, {"_id": 0}).skip(skip).limit(limit))
     return jsonify(listings)
+
 @app.route("/getall", methods=["GET"])
 def predict():
     try:
