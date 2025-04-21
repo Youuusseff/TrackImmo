@@ -10,21 +10,53 @@ const geoUrl = "https://raw.githubusercontent.com/gregoiredavid/france-geojson/m
 const MapPanel = ({ listings }) => {
   const [selectedItem, setSelectedItem] = useState(null);
 
-  // ✅ Memoized marker positions to avoid shuffling on re-render
+  const clamp = (val, min, max) => Math.min(Math.max(val, min), max);
+
   const markers = useMemo(() => {
-    return listings.map((item) => {
-      const department = item.code_postal?.substring(0, 2);
-      const coords = postalToCoords[department];
-      if (!coords) return null;
+  const grouped = {};
 
-      const offset = (Math.random() - 0.5) * 0.4;
+  listings.forEach((item) => {
+    const department = item.code_postal?.substring(0, 2);
+    const coords = postalToCoords[department];
+    if (!coords) return;
 
-      return {
+    if (!grouped[department]) {
+      grouped[department] = [];
+    }
+
+    grouped[department].push({ ...item, baseCoords: coords });
+  });
+
+  const finalMarkers = [];
+  Object.values(grouped).forEach((group) => {
+    const total = group.length;
+    const [cx, cy] = group[0].baseCoords;
+
+    const radius = 0.15; // rayon d’éparpillement fixe
+    const minAngle = (2 * Math.PI) / Math.max(total, 1); // espacement angulaire
+
+    group.forEach((item, index) => {
+      const angle = index * minAngle;
+
+      // on décale doucement autour du centre du département
+      const dx = radius * Math.cos(angle);
+      const dy = radius * Math.sin(angle);
+
+      // clamp pour éviter les débordements
+      finalMarkers.push({
         ...item,
-        coords: [coords[0] + offset, coords[1] + offset],
-      };
+        coords: [
+          clamp(cx + dx, -5, 9),
+          clamp(cy + dy, 41, 52),
+        ],
+      });
     });
-  }, [listings]);
+  });
+
+  return finalMarkers;
+}, [listings]);
+
+
 
   return (
     <div className={styles.mapWrapper}>

@@ -27,7 +27,7 @@ export const TopGrowingRegionsChart = () => {
   }, []);
 
   return (
-    <div className={styles.chartCard}>
+    <div className={`${styles.chartCard} ${styles.bottomChart} ${styles.topGrowingRegions}`}>
       <h3>📈 Top Growing Regions</h3>
       {loading ? (
         <p>Loading...</p>
@@ -66,12 +66,12 @@ export const PriceTrendsChart = () => {
   }, []);
 
   return (
-    <div className={styles.chartCard}>
+    <div className={`${styles.chartCard} ${styles.priceTrend}`}>
       <h3>📊 Price Trends Over Time</h3>
       {loading ? <p>Loading...</p> : (
         <ResponsiveContainer width="100%" height={250}>
           <LineChart data={data}>
-            <CartesianGrid strokeDasharray="3 3" />
+            <CartesianGrid strokeDasharray="3 10" />
             <XAxis dataKey="annee_mutation" />
             <YAxis />
             <Tooltip />
@@ -101,7 +101,7 @@ export const RegionalPriceMap = () => {
   }, []);
 
   return (
-    <div className={styles.chartCard}>
+    <div className={`${styles.chartCard} ${styles.bottomChart}`}>
       <h3>🗺️ Price Distribution by Region</h3>
       {loading ? (
         <p>Loading...</p>
@@ -181,7 +181,7 @@ export const InvestmentOpportunityChart = () => {
   }, []);
 
   return (
-    <div className={styles.chartCard}>
+    <div className={`${styles.chartCard} ${styles.bottomChart} ${styles.investmentOpportunity}`}>
       <h3>💡 Investment Opportunity Scores</h3>
       {loading ? <p>Loading...</p> : (
         <ResponsiveContainer width="100%" height={250}>
