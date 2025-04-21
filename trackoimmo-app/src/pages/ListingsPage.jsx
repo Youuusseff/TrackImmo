@@ -42,6 +42,7 @@ const ListingsPage = () => {
       try {
         const listings = await fetchListings(filters);
         setFilteredListings(listings);
+        console.log("Fetched listings:", listings);
       } catch (error) {
         console.error("Error loading listings:", error);
       } finally {

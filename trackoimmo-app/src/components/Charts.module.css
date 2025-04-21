@@ -1,21 +1,60 @@
 .chartCard {
     background: white;
     padding: 1.2rem;
-    margin: 1rem;
-    border-radius: 12px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    margin: 1rem 0rem;
     flex: 1;
     min-width: 280px;
   }
-  
+.priceTrend{
+  width: 80rem !important;
+  margin-left: 0;
+}
+.bottomChart{
+  width: 33rem;
+  margin-top: -3rem;
+  margin-left: -8rem;
+}
+.topGrowingRegions{
+  margin-left: 0;
+}
+.investmentOpportunity{
+  margin-left: -15rem;
+}
   @media screen and (max-width: 768px) {
     .chartCard {
       margin: 0.5rem 0;
       padding: 1rem;
     }
-  
+    .priceTrend{
+      width: 20rem !important;
+      margin-left: 0;
+    }
+    .bottomChart{
+      width: 20rem;
+      margin-top: 0rem;
+      margin-left: 0rem;
+    }
     h3 {
       font-size: 1rem;
+      text-align: center;
+    }
+  }
+  @media screen and (min-width: 769px) and (max-width: 1100px) {
+    .chartCard {
+      margin: 1rem 0;
+      padding: 1.2rem;
+    }
+    .priceTrend{
+      width: 30rem !important;
+      margin-left: -5rem;
+    }
+    .bottomChart{
+      width: 20rem;
+      margin-top: 0rem;
+      margin-left: 0rem;
+    }
+    h3 {
+      font-size: 1.2rem;
       text-align: center;
     }
   }

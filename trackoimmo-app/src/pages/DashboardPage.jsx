@@ -8,13 +8,18 @@ const DashboardPage = () => {
   return (
     <div>
       <Navbar />
+      <h1 className={styles.dashboardTitle}>Tableau de Bord Immobilier</h1>
       <div className={styles.dashboardWrapper}>
-        <h1 className={styles.dashboardTitle}>Tableau de Bord Immobilier</h1>
         <div className={styles.chartsGrid}>
-          <TopGrowingRegionsChart />
-          <PriceTrendsChart />
-          <RegionalPriceMap />
           <PropertyTypeDistributionChart />
+          <PriceTrendsChart />
+          <div></div>
+          <div></div>
+          <div></div>
+          <TopGrowingRegionsChart/>
+          <div></div>
+          <RegionalPriceMap />
+          <div></div>
           <InvestmentOpportunityChart />
         </div>
       </div>
