@@ -9,7 +9,7 @@ from flask_cors import CORS
 app = Flask(__name__)
 CORS(app)
 # Connect to MongoDB
-client = MongoClient("mongodb://localhost:27017/")  # Change this if needed
+client = MongoClient("mongodb+srv://youssefbenomrane45:FUrzdYUls9XAQNnB@cluster0.awpxajp.mongodb.net")  # Change this if needed
 db = client["lebon_spider"]  # Change to your database name
 collection = db["predictions"]  # Change to your collection name
 stats_collection = db["stats"]
