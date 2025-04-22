@@ -22,6 +22,7 @@
     position: relative;
     overflow: visible;
     z-index: 10;
+    padding-bottom: 1rem;
   }
   
   .logo {

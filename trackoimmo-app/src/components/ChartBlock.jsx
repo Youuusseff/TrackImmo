@@ -56,7 +56,7 @@ const ChartBlock = ({ title, type }) => {
       <ResponsiveContainer width="100%" height={250}>
         {type === "top_growing_regions" ? (
           <BarChart data={data} margin={{ top: 20, right: 20, left: 0, bottom: 22 }}>
-            <CartesianGrid strokeDasharray="3 3" />
+            <CartesianGrid strokeDasharray="3 10" />
             <XAxis dataKey="region" angle={-30} textAnchor="end" interval={0} tick={{ fontSize: 10 }} />
             <YAxis tickFormatter={(v) => `${v.toFixed(1)}%`} />
             <Tooltip formatter={(v) => [`${v.toFixed(2)} %`, "avg_growth"]} />
@@ -65,7 +65,7 @@ const ChartBlock = ({ title, type }) => {
           </BarChart>
         ) : type === "national_price_trends" ? (
           <LineChart data={data}>
-            <CartesianGrid strokeDasharray="3 3" />
+            <CartesianGrid strokeDasharray="3 10" />
             <XAxis dataKey="annee_mutation" />
             <YAxis />
             <Tooltip />

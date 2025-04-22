@@ -5,11 +5,13 @@
     align-items: center;
     gap: 1rem;
     margin: 2rem 0;
+    margin-bottom: 1rem;
   }
   
   .searchInput {
-    padding: 1rem 1rem;
-    font-size: 1rem;
+    padding: 0.8rem 1rem;
+    font-size: 0.8rem;
+    font-weight: 500;
     border: 1px solid #ccc;
     border-radius: 8px;
     width: 50rem;
