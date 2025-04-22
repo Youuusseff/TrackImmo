@@ -4,12 +4,13 @@ from pyspark.sql import SparkSession
 import pandas as pd
 import json
 from flask_cors import CORS
+import os
 
 # Initialize Flask app
 app = Flask(__name__)
 CORS(app)
+client = MongoClient(os.getenv("MONGO_URI", "mongodb://localhost:27017"))
 # Connect to MongoDB
-client = MongoClient("mongodb+srv://youssefbenomrane45:FUrzdYUls9XAQNnB@cluster0.awpxajp.mongodb.net")  # Change this if needed
 db = client["lebon_spider"]  # Change to your database name
 collection = db["predictions"]  # Change to your collection name
 stats_collection = db["stats"]
