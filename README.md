@@ -98,6 +98,9 @@ python track.py
 ---
 
 ## 📸 Screenshots
+### 🏡 Home View
+![Home Page](./docs/home.png)
+---
 
 ### 🔍 Listing Page with Filter Sidebar and Map
 ![Listings UI](./docs/listings.png)
@@ -105,9 +108,7 @@ python track.py
 ### 📈 Dashboard View
 ![Dashboard](./docs/dashboard.png)
 
-### 🏡 Home View
-![Home Page](./docs/home.png)
----
+
 
 ## 🚀 Deployment
 
