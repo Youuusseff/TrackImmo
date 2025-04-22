@@ -21,7 +21,6 @@ function Navbar() {
         <li><Link to="/" className={styles.link}>Home</Link></li>
         <li><Link to="/listings" className={styles.link}>Listings</Link></li>
         <li><Link to="/dashboard" className={styles.link}>Dashboard</Link></li>
-        <li><a href="#about" className={styles.link}>About</a></li>
       </ul>
     </nav>
   );

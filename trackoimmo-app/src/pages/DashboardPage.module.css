@@ -1,51 +1,59 @@
+/* DashboardPage.module.css */
+
+.dashboardTitle {
+  text-align: center;
+  margin-top: 2rem;
+  font-size: 2rem;
+  font-weight: bold;
+}
+
 .dashboardWrapper {
-    padding: 2rem;
-    padding-left: 6rem;
-    width: 100%;
-    margin-right: 0;
-    font-family: 'Segoe UI', sans-serif;
-    border-radius: 12px;
-    box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.5);
-  }
-  body{
-    overflow: hidden;
-  }
-  .dashboardTitle {
-    font-size: 1.8rem;
-    margin-bottom: 2rem;
-    text-align: center;
-    color: #333;
-  }
-  
+  padding: 2rem;
+  display: flex;
+  justify-content: center;
+}
+
+.chartsGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: auto auto;
+  gap: 2rem;
+  width: 100%;
+  max-width: 1400px;
+}
+
+.chartCard {
+  background: white;
+  border-radius: 12px;
+  padding: 1rem;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
+  transition: transform 0.2s ease;
+}
+
+.chartCard:hover {
+  transform: translateY(-3px);
+}
+
+.priceTrend {
+  grid-column: span 2;
+}
+
+/* Specific overrides for bottom charts */
+.topGrowingRegions,
+.regionalPriceMap,
+.investmentOpportunity {
+  min-width: 0;
+}
+
+/* Responsive Design */
+@media (max-width: 1000px) {
   .chartsGrid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-    gap: 2rem;
+    grid-template-columns: 1fr;
+    grid-template-rows: auto;
   }
-  
-  /* Ensure charts don’t overflow on mobile */
-  @media screen and (max-width: 768px) {
-    .dashboardWrapper {
-      padding: 1rem;
-    }
-  
-    .dashboardTitle {
-      font-size: 1.4rem;
-    }
-  
-    .chartsGrid {
-      gap: 1.5rem;
-    }
-    body{
-      overflow: auto;
-      overflow-x: hidden;
-    }
+
+  .priceTrend{
+    grid-column: span 1;
   }
-  @media screen and (min-width: 769px) and (max-width: 1100px) {
-    body{
-      overflow: auto;
-      overflow-x: hidden;
-    }
-  }
-  
+}
   

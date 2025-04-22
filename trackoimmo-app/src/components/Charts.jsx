@@ -45,8 +45,9 @@ export const TopGrowingRegionsChart = () => {
               textAnchor="end"
               interval={0}
             />
-            <YAxis />
-            <Tooltip />
+            <YAxis tickFormatter={(value) => `${(value / 100000).toFixed(1)}%`} />
+            <Tooltip formatter={(value) => [`${(value / 100000).toFixed(2)} %`, 'avg_growth']} />
+
             <Bar dataKey="avg_growth" fill="#82ca9d" />
           </BarChart>
         </ResponsiveContainer>
@@ -60,10 +61,28 @@ export const PriceTrendsChart = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetchStatByType("national_price_trends")
-      .then((res) => setData(res))
-      .finally(() => setLoading(false));
-  }, []);
+  fetchStatByType("national_price_trends")
+    .then((res) => {
+      const yearlyAvg = {};
+      res.forEach((item) => {
+        const year = item.annee_mutation;
+        if (!yearlyAvg[year]) {
+          yearlyAvg[year] = { year, total: item.avg_price, count: 1 };
+        } else {
+          yearlyAvg[year].total += item.avg_price;
+          yearlyAvg[year].count += 1;
+        }
+      });
+      const averaged = Object.values(yearlyAvg).map((y) => ({
+        annee_mutation: y.year,
+        avg_price: y.total / y.count
+      }));
+      const sorted = averaged.sort((a, b) => a.annee_mutation - b.annee_mutation);
+      setData(sorted);
+    })
+    .finally(() => setLoading(false));
+}, []);
+
 
   return (
     <div className={`${styles.chartCard} ${styles.priceTrend}`}>
