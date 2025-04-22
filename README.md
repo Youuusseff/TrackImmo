@@ -101,11 +101,13 @@ python track.py
 
 <!-- Insert images here -->
 ### 🔍 Listing Page with Filter Sidebar and Map
-`![Listings UI](./docs/listings_ui.png)`
+`![Listings UI](./docs/listings.png)`
 
 ### 📈 Dashboard View
 `![Dashboard](./docs/dashboard.png)`
 
+### 🏡 Home View
+`![Dashboard](./docs/home.png)`
 ---
 
 ## 🚀 Deployment
