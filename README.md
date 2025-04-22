@@ -99,15 +99,14 @@ python track.py
 
 ## 📸 Screenshots
 
-<!-- Insert images here -->
 ### 🔍 Listing Page with Filter Sidebar and Map
-`![Listings UI](./docs/listings.png)`
+![Listings UI](./docs/listings.png)
 
 ### 📈 Dashboard View
-`![Dashboard](./docs/dashboard.png)`
+![Dashboard](./docs/dashboard.png)
 
 ### 🏡 Home View
-`![Dashboard](./docs/home.png)`
+![Home Page](./docs/home.png)
 ---
 
 ## 🚀 Deployment
