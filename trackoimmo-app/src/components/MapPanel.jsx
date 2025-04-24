@@ -32,17 +32,15 @@ const MapPanel = ({ listings }) => {
     const total = group.length;
     const [cx, cy] = group[0].baseCoords;
 
-    const radius = 0.15; // rayon d’éparpillement fixe
-    const minAngle = (2 * Math.PI) / Math.max(total, 1); // espacement angulaire
+    const radius = 0.15; 
+    const minAngle = (2 * Math.PI) / Math.max(total, 1);
 
     group.forEach((item, index) => {
       const angle = index * minAngle;
 
-      // on décale doucement autour du centre du département
       const dx = radius * Math.cos(angle);
       const dy = radius * Math.sin(angle);
 
-      // clamp pour éviter les débordements
       finalMarkers.push({
         ...item,
         coords: [

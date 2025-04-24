@@ -189,7 +189,7 @@ export const InvestmentOpportunityChart = () => {
           const score = Math.round(item.avg_opportunity_score / (item.property_count || 1));
           return {
             region,
-            avg_opportunity_score: Math.min(score, 100), // Cap at 100 max
+            avg_opportunity_score: Math.min(score, 100),
           };
         })
         .filter(item => item.region !== "Inconnu");

@@ -2,7 +2,7 @@ import Papa from 'papaparse';
 
 export const loadPostalCodes = async () => {
    console.log('loadPostalCodes() called');
-  const response = await fetch('/postal_codes.csv'); // assuming it's in /public
+  const response = await fetch('/postal_codes.csv'); 
   const csvText = await response.text();
   console.log('loadPostalCodes() called');
 

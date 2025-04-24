@@ -10,8 +10,7 @@ const FeaturedListings = () => {
   useEffect(() => {
     const loadFeatured = async () => {
       try {
-        const allListings = await fetchListings(); // get all for now
-        // Sort by investment potential (e.g. top 5)
+        const allListings = await fetchListings();
         const topPicks = allListings
           .filter(l => l.prediction === 1.0 && l.potential_5y_growth_pct !== null)
           .sort((a, b) => b.potential_5y_growth_pct - a.potential_5y_growth_pct)

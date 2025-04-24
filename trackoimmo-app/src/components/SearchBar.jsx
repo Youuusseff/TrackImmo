@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styles from './SearchBar.module.css';
-import { loadPostalCodes } from '../utils/loadPostalCodes';// CSV loader
+import { loadPostalCodes } from '../utils/loadPostalCodes';
 
 const SearchBar = ({ filters }) => {
   const [query, setQuery] = useState('');
@@ -12,10 +12,10 @@ const SearchBar = ({ filters }) => {
 
   const navigate = useNavigate();
 
-  // Load suggestions from CSV on component mount
+
   useEffect(() => {
     loadPostalCodes().then(data => {
-      console.log('Loaded suggestions:', data); // ADD THIS LINE
+      console.log('Loaded suggestions:', data); 
       setSuggestions(data);
     });
   }, []);
