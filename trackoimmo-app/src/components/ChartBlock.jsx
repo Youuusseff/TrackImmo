@@ -15,14 +15,19 @@ const ChartBlock = ({ title, type }) => {
     const loadStats = async () => {
       try {
         const apiData = await fetchStatByType(type);
-
+    
         if (type === "top_growing_regions") {
           const mapped = apiData.map(item => ({
             ...item,
             region: postalCodeToRegion(item.code_postal),
             avg_growth: item.avg_growth / 100000,
           }));
-          setData(mapped);
+    
+          const isMobile = window.innerWidth < 768;
+    
+          const sliced = isMobile ? mapped.slice(0, 4) : mapped;
+          setData(sliced);
+    
         } else if (type === "national_price_trends") {
           const yearlyAvg = {};
           apiData.forEach(item => {
@@ -41,11 +46,12 @@ const ChartBlock = ({ title, type }) => {
           const sorted = averaged.sort((a, b) => a.annee_mutation - b.annee_mutation);
           setData(sorted);
         }
-
+    
       } catch (error) {
         console.error("Failed to load stats:", error);
       }
     };
+    
 
     loadStats();
   }, [type]);
@@ -56,7 +62,7 @@ const ChartBlock = ({ title, type }) => {
       <ResponsiveContainer width="100%" height={250}>
         {type === "top_growing_regions" ? (
           <BarChart data={data} margin={{ top: 20, right: 20, left: 0, bottom: 22 }}>
-            <CartesianGrid strokeDasharray="3 10" />
+            <CartesianGrid strokeDasharray="3 " />
             <XAxis dataKey="region" angle={-30} textAnchor="end" interval={0} tick={{ fontSize: 10 }} />
             <YAxis tickFormatter={(v) => `${v.toFixed(1)}%`} />
             <Tooltip formatter={(v) => [`${v.toFixed(2)} %`, "avg_growth"]} />
@@ -65,7 +71,7 @@ const ChartBlock = ({ title, type }) => {
           </BarChart>
         ) : type === "national_price_trends" ? (
           <LineChart data={data}>
-            <CartesianGrid strokeDasharray="3 10" />
+            <CartesianGrid strokeDasharray="3 3" />
             <XAxis dataKey="annee_mutation" />
             <YAxis />
             <Tooltip />

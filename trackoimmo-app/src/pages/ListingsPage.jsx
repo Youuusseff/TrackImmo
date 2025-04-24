@@ -16,6 +16,8 @@ const ListingsPage = () => {
     rooms: queryParams.get('rooms') || '',
     price_min: queryParams.get('price_min') || '',
     price_max: queryParams.get('price_max') || '',
+    surface_min: queryParams.get('surface_min') || '',
+    surface_max: queryParams.get('surface_max') || ''
   };
 
   const [filters, setFilters] = useState(filtersFromURL);
@@ -35,7 +37,20 @@ const ListingsPage = () => {
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
-  // 🔁 Fetch listings from Flask API based on filters
+  useEffect(() => {
+    const params = new URLSearchParams(location.search);
+    const newFilters = {
+      city: params.get('city') || '',
+      type_local: params.get('type_local') || '',
+      rooms: params.get('rooms') || '',
+      price_min: params.get('price_min') || '',
+      price_max: params.get('price_max') || '',
+      surface_min: params.get('surface_min') || '',
+      surface_max: params.get('surface_max') || ''
+    };
+    setFilters(newFilters);
+  }, [location.search]);
+
   useEffect(() => {
     const fetchData = async () => {
       setLoading(true);

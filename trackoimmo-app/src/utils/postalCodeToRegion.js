@@ -29,19 +29,22 @@ const departmentToRegion = {
     "85": "Pays de la Loire", "86": "Nouvelle-Aquitaine", "87": "Nouvelle-Aquitaine",
     "88": "Grand Est", "89": "Bourgogne-Franche-Comté", "90": "Bourgogne-Franche-Comté",
     "91": "Île-de-France", "92": "Île-de-France", "93": "Île-de-France",
-    "94": "Île-de-France", "95": "Île-de-France"
+    "94": "Île-de-France", "95": "Île-de-France", "971": "Guadeloupe",
+    "972": "Martinique","973": "Guyane","974": "La Réunion","976": "Mayotte",
   };
   
   export function postalCodeToRegion(postalCode) {
     if (!postalCode) return "Inconnu";
     const postal = postalCode.toString().padStart(5, "0");
-    let department = postalCode.toString().substring(0, 2);
   
-    if (department === "20") {
-      if (postal.startsWith("2A")) department = "2A";
-      else if (postal.startsWith("2B")) department = "2B";
-    }
+    if (postal.startsWith("2A")) return departmentToRegion["2A"];
+    if (postal.startsWith("2B")) return departmentToRegion["2B"];
   
+    const overseas = postal.substring(0, 3);
+    if (departmentToRegion[overseas]) return departmentToRegion[overseas];
+  
+    const department = postal.substring(0, 2);
     return departmentToRegion[department] || "Inconnu";
   }
+  
   
