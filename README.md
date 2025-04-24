@@ -22,7 +22,8 @@ The app consists of:
 - **Backend** (Flask): RESTful API, ML model endpoints, MongoDB connector  
 - **Scraping Layer** (Scrapy): Real-time crawling and listing updates  
 - **ML Pipeline** (Spark): DVF + listing analysis for investment scoring  
-- **Big Data Layer** (Hadoop + Hive): Historical data lake + queries  
+- **Big Data Layer** (Hadoop + Hive): Historical data lake + queries
+- **Automating** (Python) : python script  
 
 ---
 
@@ -35,7 +36,7 @@ The app consists of:
 | ML Pipeline  | PySpark, Scikit-learn / LightGBM, Optuna      |
 | Scraping     | Scrapy,  Shell scripts                        |
 | Data Storage | Hadoop, Hive, MongoDB                         |
-
+| Automation   | Python, MongoDB                               |
 ---
 
 ## 📂 Project Structure
@@ -46,6 +47,7 @@ TrackImmo/
 ├── machine/                     # Flask API and AI Model
 ├── camoufox/                    # Scrapy spiders
 ├── update.sh                    # Shell scripts for DVF ingestion
+├── daily_pipeline.py            # Python script for automation 
 └── README.md
 ```
 
