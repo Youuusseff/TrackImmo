@@ -2,7 +2,7 @@
 
 TrackImmo is a full-stack web application designed to identify real estate investment opportunities across France. It leverages **public data**, **web scraping**, and **machine learning** to provide users with valuable insights into the real estate market.
 
---- The url = https://trackimmo.netlify.app/
+--- The url = https://trackimmo.netlify.app/  ( this website is using a free webservice provider so there may be a good delay of 10s sometimes with fetching data ) 
 
 ## 📌 Features
 
