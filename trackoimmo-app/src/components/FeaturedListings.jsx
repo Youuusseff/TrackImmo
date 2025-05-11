@@ -43,7 +43,7 @@ const FeaturedListings = () => {
 
   return (
     <div className={styles.wrapper}>
-      <h2 className={styles.title}>🔥 Investment Picks</h2>
+      <h2 className={styles.title}>Some Investment Picks</h2>
       <div className={styles.scroller}>
         <div className={styles.ticker} ref={tickerRef}>
           {[...listings, ...listings].map((listing, index) => (

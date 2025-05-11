@@ -6,7 +6,7 @@ import json
 from flask_cors import CORS
 import os
 
-# Initialize Flask app
+
 app = Flask(__name__)
 CORS(app)
 client = MongoClient(os.getenv("MONGO_URI", "mongodb://localhost:27017"))
@@ -46,13 +46,12 @@ def get_filtered_listings():
 @app.route("/getall", methods=["GET"])
 def predict():
     try:
-        # Fetch data from MongoDB
-        listings = list(collection.find({}, {"_id": 0}))  # Exclude `_id` field
+        
+        listings = list(collection.find({}, {"_id": 0}))
 
         if not listings:
             return jsonify({"error": "No listings found in MongoDB"})
 
-        # Convert MongoDB data to a Pandas DataFrame
         return jsonify(listings)
 
     except Exception as e:
